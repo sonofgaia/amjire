@@ -4,8 +4,6 @@ def get_response(url, params):
     host = "api.coinbase.com"
     request_body = ''
 
-    timestamp = str(int(time.time()))
-
     # Read API secret from config file
     config = configparser.ConfigParser()
     config.read('credentials.ini')
@@ -13,6 +11,7 @@ def get_response(url, params):
     api_secret = config['credentials']['api_secret']
 
     # Create HMAC signature used for authentication
+    timestamp = str(int(time.time()))
     message = timestamp + 'GET' + url + request_body
     signature = hmac.new(api_secret.encode('utf-8'), message.encode('utf-8'), digestmod=hashlib.sha256).digest()
 
